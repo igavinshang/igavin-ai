@@ -1,35 +1,31 @@
-package org.igavin.ai;
+package org.igavin.ai.rag;
 
 import dev.langchain4j.data.embedding.Embedding;
-import dev.langchain4j.data.message.SystemMessage;
-import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-
-
 import java.util.List;
 import java.util.stream.Collectors;
-
-import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import lombok.extern.slf4j.Slf4j;
-import org.igavin.TextEmbedder;
+import org.igavin.ai.chat.ChatService;
+import org.igavin.ai.chat.ChatServiceFactory;
+import org.igavin.ai.config.AIProperties;
+
 
 @Slf4j
 public class RagService {
     private final TextEmbedder textEmbedder;
     private final VectorStore vectorStore;
-    private final ChatLanguageModel chatModel;
+    private final ChatService chatService;
     private static final int MAX_RESULTS = 15;
 
-    public RagService(String modelApiKey, String modelUrl, String modelName,String esHost,String esApiKey, String indexName) {
-        this.textEmbedder = new TextEmbedder(modelApiKey,modelUrl,modelName);
-        this.vectorStore = new VectorStore(esHost, esApiKey, indexName);
-        this.chatModel = OllamaChatModel.builder()
-                .baseUrl(modelUrl)
-                //.apiKey(modelApiKey)
-                .modelName(modelName)
-                .build();
+    public RagService(AIProperties aiProperties,ChatServiceFactory chatServiceFactory) {
+        this.textEmbedder = new TextEmbedder(aiProperties.getModel().getApiKey(),
+                    aiProperties.getModel().getBaseUrl(),
+                aiProperties.getModel().getName());
+        this.vectorStore = new VectorStore(aiProperties.getElasticsearch().getUrl(),
+                aiProperties.getElasticsearch().getApiKey(),
+                aiProperties.getElasticsearch().getIndexName());
+        this.chatService = chatServiceFactory.getChatService();
     }
 
     public String generateResponse(String userQuery) {
@@ -41,7 +37,7 @@ public class RagService {
                 MAX_RESULTS);
 
         if (relevantEmbeddings.isEmpty()) {
-            return "I couldn't find any relevant information to answer your question.";
+            return "relevant documents not found";
         }
 
         // 提取检索到的文本
@@ -55,10 +51,7 @@ public class RagService {
                 "\n\nPlease answer this question: " + userQuery;
 
         // 使用LLM生成回答
-        return chatModel.generate(
-                new SystemMessage(
-                        "You are a helpful assistant that answers questions based only on the provided information."),
-                new UserMessage(prompt)).toString();
+        return chatService.chat(prompt);
     }
 
     // 添加一个方法来索引新文档

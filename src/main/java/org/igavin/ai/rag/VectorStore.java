@@ -1,4 +1,4 @@
-package org.igavin.ai;
+package org.igavin.ai.rag;
 
 
 import co.elastic.clients.util.ApiTypeHelper;
@@ -8,19 +8,15 @@ import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
-import org.apache.http.Header;
-import org.apache.http.HttpHost;
-import org.apache.http.message.BasicHeader;
-import org.elasticsearch.client.RestClient;
 
 import java.util.List;
 
 public class VectorStore {
     private final EmbeddingStore<TextSegment> embeddingStore;
 
-    public VectorStore(String host, String apiKey, String indexName) {
+    public VectorStore(String url, String apiKey, String indexName) {
         this.embeddingStore = ElasticsearchEmbeddingStore.builder()
-                .serverUrl("http://" + host)
+                .serverUrl("http://" + url)
 //                .restClient(RestClient.builder(
 //                        new HttpHost(host)
 //                        )

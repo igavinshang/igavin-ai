@@ -1,7 +1,9 @@
-package org.igavin.ai;
+package org.igavin.ai.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.igavin.ai.chat.ChatServiceFactory;
+import org.igavin.ai.config.AIProperties;
+import org.igavin.ai.rag.RagService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,19 +14,13 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/rag")
 public class RagController {
 
     private final RagService ragService;
 
-    public RagController(
-            @Value("${model.api.key}") String modelApiKey,
-            @Value("${model.url}") String modelUrl,
-            @Value("${model.name}") String modelName,
-            @Value("${elasticsearch.url}") String esHost,
-            @Value("${elasticsearch.api-key}") String esApiKey,
-            @Value("${elasticsearch.index-name}") String indexName) {
-        this.ragService = new RagService(modelApiKey,modelUrl,modelName, esHost, esApiKey, indexName);
+    public RagController(AIProperties aiProperties, ChatServiceFactory chatServiceFactory) {
+        this.ragService = new RagService(aiProperties,chatServiceFactory);
     }
 
     @PostMapping("/query")
@@ -43,14 +39,14 @@ public class RagController {
     @PostMapping("/index")
     public ResponseEntity<?> indexFile(@RequestParam("file") MultipartFile file) {
         try {
-            // Save the uploaded file temporarily
+            // 临时保存文件
             Path tempFile = Files.createTempFile("upload_", file.getOriginalFilename());
             file.transferTo(tempFile.toFile());
 
-            // Index the file
+            // 索引文件
             ragService.indexDocuments(tempFile.toString());
 
-            // Delete the temp file
+            // 删除临时文件
             Files.delete(tempFile);
 
             return ResponseEntity.ok(Map.of("message", "Document indexed successfully"));

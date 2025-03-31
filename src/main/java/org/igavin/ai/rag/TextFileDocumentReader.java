@@ -1,4 +1,4 @@
-package org.igavin.ai;
+package org.igavin.ai.rag;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
