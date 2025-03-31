@@ -8,6 +8,8 @@ import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
 
 import java.util.List;
 
@@ -16,15 +18,14 @@ public class VectorStore {
 
     public VectorStore(String url, String apiKey, String indexName) {
         this.embeddingStore = ElasticsearchEmbeddingStore.builder()
-                .serverUrl("http://" + url)
-//                .restClient(RestClient.builder(
-//                        new HttpHost(host)
-//                        )
+                .restClient(RestClient.builder(
+                        HttpHost.create("http://" + url)
+                        )
 ////                        .setDefaultHeaders(
 ////                                new Header[] {
 ////                                        new BasicHeader("Authorization", "ApiKey " + apiKey),
 ////                                })
-//                        .build())
+                        .build())
                 .indexName(indexName)
                 .build();
     }
@@ -43,7 +44,7 @@ public class VectorStore {
         EmbeddingSearchRequest request = EmbeddingSearchRequest.builder()
                 .queryEmbedding(queryEmbedding)
                 .maxResults(maxResults)
-                .minScore(0.8) // Minimal similarity threshold
+                .minScore(0.8) // 最小相似性阈值
                 .build();
         return embeddingStore.search(request).matches();
 
