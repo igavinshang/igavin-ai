@@ -1,0 +1,11 @@
+spring:
+  ai:
+    dashscope:
+      api-key: sk-aa48434483d84b86b3ddba44820e3e6d
+    vectorstore:
+      elasticsearch:
+        index-name: spring-ai-alibaba-index
+        similarity: cosine
+        dimensions: 1536
+  elasticsearch:
+    uris: http://127.0.0.1:9200
