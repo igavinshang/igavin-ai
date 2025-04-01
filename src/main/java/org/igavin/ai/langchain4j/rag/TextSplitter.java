@@ -1,4 +1,4 @@
-package org.igavin.ai.rag;
+package org.igavin.ai.langchain4j.rag;
 
 import java.util.ArrayList;
 import java.util.List;

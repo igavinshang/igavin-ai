@@ -1,4 +1,4 @@
-package org.igavin.ai.rag;
+package org.igavin.ai.langchain4j.rag;
 
 
 import co.elastic.clients.util.ApiTypeHelper;

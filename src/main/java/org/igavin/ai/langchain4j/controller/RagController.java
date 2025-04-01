@@ -1,9 +1,9 @@
-package org.igavin.ai.controller;
+package org.igavin.ai.langchain4j.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.igavin.ai.chat.ChatServiceFactory;
+import org.igavin.ai.langchain4j.chat.ChatServiceFactory;
 import org.igavin.ai.config.AIProperties;
-import org.igavin.ai.rag.RagService;
+import org.igavin.ai.langchain4j.rag.RagService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

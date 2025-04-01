@@ -1,4 +1,4 @@
-package org.igavin.ai.chat;
+package org.igavin.ai.langchain4j.chat;
 
 import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;

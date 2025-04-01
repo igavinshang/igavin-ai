@@ -1,4 +1,4 @@
-package org.igavin.ai.rag;
+package org.igavin.ai.langchain4j.rag;
 
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import lombok.extern.slf4j.Slf4j;
-import org.igavin.ai.chat.ChatService;
-import org.igavin.ai.chat.ChatServiceFactory;
+import org.igavin.ai.langchain4j.chat.ChatService;
+import org.igavin.ai.langchain4j.chat.ChatServiceFactory;
 import org.igavin.ai.config.AIProperties;
 
 

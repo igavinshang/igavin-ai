@@ -1,4 +1,4 @@
-package org.igavin.ai.rag;
+package org.igavin.ai.langchain4j.rag;
 
 import com.alibaba.dashscope.embeddings.TextEmbedding;
 import dev.langchain4j.community.model.dashscope.QwenEmbeddingModel;
@@ -24,13 +24,13 @@ public class TextEmbedder {
             this.embeddingModel = QwenEmbeddingModel.builder()
                     .baseUrl(baseUrl)
                     .apiKey(apiKey)
-                    .modelName(TextEmbedding.Models.TEXT_EMBEDDING_V3)
+                    .modelName(TextEmbedding.Models.TEXT_EMBEDDING_V1)
                     .build();
          } else {
             this.embeddingModel = OpenAiEmbeddingModel.builder()
                     .apiKey(apiKey)
                     .baseUrl(baseUrl)
-                    .modelName(OpenAiEmbeddingModelName.TEXT_EMBEDDING_ADA_002) //支持嵌入生成的模型
+                    .modelName(OpenAiEmbeddingModelName.TEXT_EMBEDDING_3_SMALL) //支持嵌入生成的模型
                     .build();
         }
     }

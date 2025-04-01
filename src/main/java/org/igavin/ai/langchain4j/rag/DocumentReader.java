@@ -1,4 +1,4 @@
-package org.igavin.ai.rag;
+package org.igavin.ai.langchain4j.rag;
 
 import java.io.IOException;
 import java.util.List;

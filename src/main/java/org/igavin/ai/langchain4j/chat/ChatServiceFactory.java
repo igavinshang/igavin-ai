@@ -1,4 +1,4 @@
-package org.igavin.ai.chat;
+package org.igavin.ai.langchain4j.chat;
 
 import org.igavin.ai.config.AIProperties;
 import org.springframework.stereotype.Component;

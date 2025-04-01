@@ -1,4 +1,4 @@
-package org.igavin.ai.chat;
+package org.igavin.ai.langchain4j.chat;
 
 
 public interface ChatService {
