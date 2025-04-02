@@ -107,7 +107,9 @@ public class LocalRagService implements RagService {
                         0.1))
                 .build();
 
-        return chatClient.prompt().user(message).stream().chatResponse();
+        return chatClient.prompt()
+                .tools("getWeatherServiceFunction")
+                .user(message).stream().chatResponse();
     }
 
     private void createIndexIfNotExists() {
