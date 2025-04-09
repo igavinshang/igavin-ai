@@ -16,12 +16,13 @@ public class RagService {
     private final TextEmbedder textEmbedder;
     private final VectorStore vectorStore;
     private final ChatService chatService;
-    private static final int MAX_RESULTS = 15;
+    private static final int MAX_RESULTS = 100;
 
     public RagService(AIProperties aiProperties,ChatServiceFactory chatServiceFactory) {
         this.textEmbedder = new TextEmbedder(aiProperties.getModel().getApiKey(),
                     aiProperties.getModel().getBaseUrl(),
-                aiProperties.getModel().getName());
+                aiProperties.getModel().getName(),
+                aiProperties.getModel().getPlatform());
         this.vectorStore = new VectorStore(aiProperties.getElasticsearch().getUrl(),
                 aiProperties.getElasticsearch().getApiKey(),
                 aiProperties.getElasticsearch().getIndexName());

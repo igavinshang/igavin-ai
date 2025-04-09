@@ -14,15 +14,14 @@ import java.util.List;
 public class TextEmbedder {
     private final EmbeddingModel embeddingModel;
 
-    public TextEmbedder(String apiKey, String baseUrl, String modelName) {
-        if (baseUrl.contains("localhost") || baseUrl.contains("ollama")) {
+    public TextEmbedder(String apiKey, String baseUrl, String modelName,String platform) {
+        if (platform.equals("ollama")) {
             this.embeddingModel = OllamaEmbeddingModel.builder()
                     .baseUrl(baseUrl)
                     .modelName(modelName)
                     .build();
-        } else if (baseUrl.contains("dashscope") || baseUrl.contains("aliyun")) {
+        } else if (platform.equals("aliyun")) {
             this.embeddingModel = QwenEmbeddingModel.builder()
-                    .baseUrl(baseUrl)
                     .apiKey(apiKey)
                     .modelName(TextEmbedding.Models.TEXT_EMBEDDING_V1)
                     .build();

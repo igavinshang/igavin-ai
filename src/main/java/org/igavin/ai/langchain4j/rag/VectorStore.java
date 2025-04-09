@@ -40,11 +40,10 @@ public class VectorStore {
     }
 
     public List<EmbeddingMatch<TextSegment>> searchSimilarEmbeddings(Embedding queryEmbedding, int maxResults) {
-        ApiTypeHelper.DANGEROUS_disableRequiredPropertiesCheck(false);
         EmbeddingSearchRequest request = EmbeddingSearchRequest.builder()
                 .queryEmbedding(queryEmbedding)
                 .maxResults(maxResults)
-                .minScore(0.8) // 最小相似性阈值
+                .minScore(0.6) // 最小相似性阈值
                 .build();
         return embeddingStore.search(request).matches();
 
